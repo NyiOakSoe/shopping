@@ -46,11 +46,12 @@
                         <input class="form-control" type="text" name="name" id="" value="<?php echo $result[0]['name']?>">
                     </div>
                     <div class="form-group">
-                        <label for="">Description</label>
+                        <label for="">Description</label><br>
                         <textarea name="description" id="" cols="40" rows="10"><?php echo $result[0]['description']?></textarea>
                     </div>
                     <div class="form-group">
-                        <input type="submit" name="btn" value="Save" class="btn btn-success">
+                        <input type="submit" name="btn" value="Update" class="btn btn-success">
+                        <a href="category.php" type="button" class="btn btn-warning">Back</a>
                     </div>
                    
                 </form>

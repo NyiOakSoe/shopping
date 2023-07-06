@@ -16,20 +16,20 @@
   
   if(isset($_POST['searchBTN'])){
    $search=$_POST['search'];
-   $stmt=$pdo->prepare("SELECT * FROM categories  WHERE name LIKE '%$search%' ORDER BY id DESC");
+   $stmt=$pdo->prepare("SELECT * FROM product  WHERE name LIKE '%$search%' ORDER BY id DESC");
     $stmt->execute();
     $row_result=$stmt->fetchAll();
     $totalpageno=ceil(count($row_result)/$rec);
-    $stmt=$pdo->prepare("SELECT * FROM categories WHERE name LIKE '%$search%' ORDER BY id DESC LIMIT $offect,$rec    ");
+    $stmt=$pdo->prepare("SELECT * FROM product WHERE name LIKE '%$search%' ORDER BY id DESC LIMIT $offect,$rec    ");
     $stmt->execute();
     $result=$stmt->fetchAll();
     
   }else{
-    $stmt=$pdo->prepare("SELECT * FROM categories  ORDER BY id DESC");
+    $stmt=$pdo->prepare("SELECT * FROM product  ORDER BY id DESC");
     $stmt->execute();
     $row_result=$stmt->fetchAll();
     $totalpageno=ceil(count($row_result)/$rec);
-    $stmt=$pdo->prepare("SELECT * FROM categories ORDER BY id DESC LIMIT $offect,$rec   ");
+    $stmt=$pdo->prepare("SELECT * FROM product ORDER BY id DESC LIMIT $offect,$rec   ");
     $stmt->execute();
     $result=$stmt->fetchAll();
     
@@ -50,13 +50,16 @@
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-                <a href="add.php" type="button" class="btn btn-success">New Category</a><br><br>
+                <a href="add.php" type="button" class="btn btn-success">New Product</a><br><br>
                 <table class="table table-bordered">
                   <thead>
                     <tr>
                       <th style="width: 10px">No</th>
                       <th style="width: 400px">Name</th>
                       <th >Description</th>
+                      <th >Price</th>
+                      <th >In Stock</th>
+                      <th >Category</th>
                       <th style="width: 160px">Action</th>
                     </tr>
                   </thead>
@@ -64,11 +67,17 @@
                     <?php
                     $i=1;
                     foreach($result as $value){
+                      $catStmt=$pdo->prepare("SELECT * FROM categories WHERE id=".$value['categories_id']);
+                      $catStmt->execute();
+                      $catResult=$catStmt->fetchAll();
                       ?>
                       <tr>
                         <td><?php echo $i;?></td>
                         <td><?php echo $value['name']?></td>
                         <td><?php echo $value['description']?></td>
+                        <td><?php echo $value['price']?></td>
+                        <td><?php echo $value['quantity']?></td>
+                        <td><?php echo $catResult[0]['name']?></td>
                         <td>
                           <a href="edit.php?id=<?php echo $value['id'] ?>" type="button" class="btn btn-warning">Edit</a>
                           <a href="delete.php?id=<?php echo $value['id'] ?>" type="button" class="btn btn-danger">Delete</a>

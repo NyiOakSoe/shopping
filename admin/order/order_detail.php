@@ -14,26 +14,16 @@
   $rec=1;
   $offect=($pageno -1)* $rec;
   
-  if(isset($_POST['searchBTN'])){
-   $search=$_POST['search'];
-   $stmt=$pdo->prepare("SELECT * FROM categories  WHERE name LIKE '%$search%' ORDER BY id DESC");
+    $id=$_GET['id'];
+    $stmt=$pdo->prepare("SELECT * FROM sale_order_detail WHERE sale_order_id=$id");
     $stmt->execute();
     $row_result=$stmt->fetchAll();
     $totalpageno=ceil(count($row_result)/$rec);
-    $stmt=$pdo->prepare("SELECT * FROM categories WHERE name LIKE '%$search%' ORDER BY id DESC LIMIT $offect,$rec    ");
+    $stmt=$pdo->prepare("SELECT * FROM sale_order_detail WHERE sale_order_id=$id LIMIT $offect,$rec   ");
     $stmt->execute();
     $result=$stmt->fetchAll();
     
-  }else{
-    $stmt=$pdo->prepare("SELECT * FROM categories  ORDER BY id DESC");
-    $stmt->execute();
-    $row_result=$stmt->fetchAll();
-    $totalpageno=ceil(count($row_result)/$rec);
-    $stmt=$pdo->prepare("SELECT * FROM categories ORDER BY id DESC LIMIT $offect,$rec   ");
-    $stmt->execute();
-    $result=$stmt->fetchAll();
-    
-  }
+  
       
   include ('header.php');
     
@@ -46,33 +36,35 @@
           <div class="col-md-12">
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Catogories</h3>
+                <h3 class="card-title">Order Detail</h3>
               </div>
               <!-- /.card-header -->
               <div class="card-body">
-                <a href="add.php" type="button" class="btn btn-success">New Category</a><br><br>
+                
                 <table class="table table-bordered">
                   <thead>
                     <tr>
                       <th style="width: 10px">No</th>
-                      <th style="width: 400px">Name</th>
-                      <th >Description</th>
-                      <th style="width: 160px">Action</th>
+                      <th style="width: 400px">Product</th>
+                      <th >Quantity</th>
+                      <th >Order Date</th>
+                      
                     </tr>
                   </thead>
                   <tbody>
                     <?php
                     $i=1;
                     foreach($result as $value){
+                        $pStmt=$pdo->prepare("SELECT * FROM product WHERE id=".$value['product_id']);
+                        $pStmt->execute();
+                        $pResult=$pStmt->fetchAll();
                       ?>
                       <tr>
                         <td><?php echo $i;?></td>
-                        <td><?php echo $value['name']?></td>
-                        <td><?php echo $value['description']?></td>
-                        <td>
-                          <a href="edit.php?id=<?php echo $value['id'] ?>" type="button" class="btn btn-warning">Edit</a>
-                          <a href="delete.php?id=<?php echo $value['id'] ?>" type="button" class="btn btn-danger">Delete</a>
-                        </td>
+                        <td><?php echo $pResult[0]['name']?></td>
+                        <td><?php echo $value['quantity']?></td>
+                        <td><?php echo date('d-m-Y',strtotime($value['order_date']))?></td>
+                       
                       </tr>
                       <?php
                       $i++;
@@ -83,13 +75,14 @@
                   </tbody>
                 </table>
                 <br>
+                <a href="order.php" class="btn btn-warning" type="button">Back</a>
                 <nav aria-label="Page navigation example">
                 <ul class="pagination" style="float:right">
-                  <li class="page-item ">
-                    <a class="page-link" href="?pageno=1">First</a>
+                  <li class="page-item <?php if($pageno=1){echo 'disabled';}?>">
+                    <a class="page-link" href="?pageno=1&id=<?php echo $_GET['id'];?>">First</a>
                   </li>
                   <li class="page-item <?php if($pageno<=1){echo 'disabled';}?>">
-                    <a class="page-link" href="?<?php if($pageno<=1){echo '#';}else{echo "pageno=".($pageno-1);}?>">Previous</a>
+                    <a class="page-link" href="?<?php if($pageno<=1){echo '#';}else{echo "pageno=".($pageno-1);}?>&id=<?php echo $_GET['id']?>">Previous</a>
                   </li>
                   <li class="page-item">
                     <a class="page-link" href="<?php echo '#'?>"><?php echo $pageno?></a>
@@ -97,8 +90,8 @@
                   <li class="page-item <?php if($pageno>=$totalpageno){echo 'disabled';}?> ">
                     <a class="page-link" href="?<?php if($pageno>=$totalpageno){echo '#';}else{echo "pageno=".($pageno+1);}?>">Next</a>
                   </li>
-                  <li class="page-item ">
-                    <a class="page-link" href="?pageno=<?php echo $totalpageno ?>">Last</a>
+                  <li class="page-item <?php if($pageno=$totalpageno){echo 'disabled';}?>">
+                    <a class="page-link" href="?pageno=<?php echo $totalpageno ?>&id=<?php echo $_GET['id']?>">Last</a>
                   </li>
                 </ul>
               </nav>

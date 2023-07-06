@@ -1,3 +1,6 @@
+<?php
+  require '../../config/common.php';
+?>
 <!DOCTYPE html>
 <!--
 This is a starter template page. Use this page to start your new project from
@@ -12,9 +15,9 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome Icons -->
-  <link rel="stylesheet" href="plugins/fontawesome-free/css/all.min.css">
+  <link rel="stylesheet" href="../plugins/fontawesome-free/css/all.min.css">
   <!-- Theme style -->
-  <link rel="stylesheet" href="dist/css/adminlte.min.css">
+  <link rel="stylesheet" href="../dist/css/adminlte.min.css">
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -42,12 +45,21 @@ scratch. This page gets rid of all links and provides the needed markup only.
             $link=explode('/',$link);
             $page=end($link);
           ?>
-          <form class="form-inline" method="post" action="<?php echo $page=='index.php'?'index.php':'user.php'; ?>">
+          <form class="form-inline" method="post" 
+          <?php
+          if($page=='index.php'):?>
+            action="index.php"
+          <?php elseif($page=='category.php'):?>
+            action="category.php"
+          <?php elseif($page=='user.php'):?>
+            action="user.php"
+            <?php endif?>>
+           
             <input type="hidden" name="_token" value="<?php echo $_SESSION['_token'];?>">
             <div class="input-group input-group-sm">
               <input class="form-control form-control-navbar" name="search" type="search" placeholder="Search" aria-label="Search">
               <div class="input-group-append">
-                <button class="btn btn-navbar" type="submit" >
+                <button class="btn btn-navbar" name="searchBTN" type="submit" >
                   <i class="fas fa-search"></i>
                 </button>
                 <button class="btn btn-navbar" type="button" data-widget="navbar-search">
@@ -69,8 +81,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
     <a href="index3.html" class="brand-link">
-      <img src="dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
-      <span class="brand-text font-weight-light">Blog</span>
+      <img src="../dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
+      <span class="brand-text font-weight-light">Admin Pannel</span>
     </a>
 
     <!-- Sidebar -->
@@ -78,10 +90,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+          <img src="../dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <!-- <a href="#" class="d-block"><?php echo $_SESSION['user_name']; ?></a> -->
+          <a href="#" class="d-block"><?php echo $_SESSION['name']; ?></a>
         </div>
       </div>
 
@@ -95,7 +107,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                with font-awesome or any other icon font library -->
           
           <li class="nav-item">
-            <a href="index.php" class="nav-link">
+            <a href="product.php" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Product 
@@ -103,7 +115,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
           </li>
           <li class="nav-item">
-            <a href="category/category.php" class="nav-link">
+            <a href="../category/category.php" class="nav-link">
               <i class="nav-icon fas fa-list"></i>
               <p>
                 Category
@@ -111,10 +123,18 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
           </li>
           <li class="nav-item">
-            <a href="user/user.php" class="nav-link">
+            <a href="../user/user.php" class="nav-link">
               <i class="nav-icon fas fa-user"></i>
               <p>
                 User
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="../order/order.php" class="nav-link">
+              <i class="nav-icon fas fa-table"></i>
+              <p>
+                Order
               </p>
             </a>
           </li>
