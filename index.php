@@ -149,12 +149,12 @@
 							?>
 							
 							<div class="col-lg-4 col-md-6">
-							<div class="single-product">
-								<a href="product_detail.php?id=<?php echo $value['id'];?>"><img class="img-fluid" src="admin/product_image/<?php echo $value['image'];?>" alt="" style="height: 200;"></a>
+							<div class="single-product" >
+								<a href="product_detail.php?id=<?php echo $value['id'];?>"><img class="img-fluid" src="admin/product_image/<?php echo $value['image'];?>" alt="" style="height: 230px;"></a>
 								<div class="product-details">
-									<h6><?php echo $value['name'];?></h6>
+									<h6  style="height: 70px;"><?php echo $value['name'];?></h6>
 									<div class="price">
-										<h6><?php echo $value['price'];?></h6>
+										<h5 style="color: #ff6c00;">Price-<?php echo $value['price'];?> MMK</h5>
 									</div>
 									<div class="prd-bottom">
 										<form action="addtocart.php" method="post">

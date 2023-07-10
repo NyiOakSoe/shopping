@@ -136,6 +136,41 @@ scratch. This page gets rid of all links and provides the needed markup only.
               </p>
             </a>
           </li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+            <i class="nav-icon fas fa-copy"></i>
+              <p>
+                Report
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="../Report/weekly_report.php" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Weekly Report</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="../Report/monthly_report.php" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Monthly Report</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="../Report/royal_cos.php" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Royal Costumer</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="../Report/best_seller_item.php" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Best Seller Item</p>
+                </a>
+              </li>
+            </ul>
+          </li>
         </ul>
       </nav>
       <!-- /.sidebar-menu -->

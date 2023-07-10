@@ -18,6 +18,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
   <link rel="stylesheet" href="../plugins/fontawesome-free/css/all.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="../dist/css/adminlte.min.css">
+  <!-- Data Table -->
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.min.css">
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -41,7 +43,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
           ?>
       <!-- Navbar Search -->
       <?php
-        if($page=='user.php'){
+        if($page=='product.php'){
           ?>
           <li class="nav-item">
         <a class="nav-link" data-widget="navbar-search" href="#" role="button">
@@ -156,25 +158,25 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="../Report/weekly_report.php" class="nav-link">
+                <a href="weekly_report.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Weekly Report</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="../Report/monthly_report.php" class="nav-link">
+                <a href="monthly_report.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Monthly Report</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="../Report/royal_cos.php" class="nav-link">
+                <a href="royal_cos.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Royal Costumer</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="../Report/best_seller_item.php" class="nav-link">
+                <a href="best_seller_item.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Best Seller Item</p>
                 </a>

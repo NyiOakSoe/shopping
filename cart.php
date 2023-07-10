@@ -88,6 +88,9 @@
                                 <td>
 
                                 </td>
+                                <td>
+
+                                </td>
                                 
                                 <td>
 
@@ -98,9 +101,9 @@
                                 
                                 <td>
                                     <div class="checkout_btn_inner d-flex align-items-center">
-                                        <a class="gray_btn" href="clearall.php">Clear All</a>
+                                        <a class="gray_btn" style="width: 160px;" href="clearall.php">Clear All</a>
                                         <a class="primary-btn" href="index.php">Continue Shopping</a>
-                                        <a class="gray_btn" href="sale_order.php">Proceed to checkout</a>
+                                        <a class="gray_btn" style="width: 250px;" href="sale_order.php">Proceed to checkout</a>
                                     </div>
                                 </td>
                             </tr>

@@ -41,9 +41,12 @@
 </head>
 
 <body id="category">
-
-	<!-- Start Header Area -->
-	<header class="header_area sticky-header">
+		<?php
+            $link=$_SERVER['PHP_SELF'];
+            $link=explode('/',$link);
+            $page=end($link);
+        ?>
+		<header class="header_area sticky-header">
 		<div class="main_menu">
 			<nav class="navbar navbar-expand-lg navbar-light main_box">
 				<div class="container">
@@ -59,9 +62,16 @@
 					<div class="collapse navbar-collapse offset" id="navbarSupportedContent">
 						<ul class="nav navbar-nav navbar-right">
 							<li class="nav-item"><a href="cart.php" class="cart"><span class="ti-bag"><?php echo $cart;?></span></a></li>
-							<li class="nav-item">
-								<button class="search"><span class="lnr lnr-magnifier" id="search"></span></button>
-							</li>
+							<?php
+								if($page!='product_detail.php'){
+							?>
+								<li class="nav-item">
+									<button class="search"><span class="lnr lnr-magnifier" id="search"></span></button>
+								</li>
+							<?php
+								}
+							?>
+							
 						</ul>
 					</div>
 				</div>
@@ -69,11 +79,7 @@
 		</div>
 		<div class="search_input" id="search_input_box">
 			<div class="container">
-			<?php
-            $link=$_SERVER['PHP_SELF'];
-            $link=explode('/',$link);
-            $page=end($link);
-          ?>
+			
 				<form class="d-flex justify-content-between" method="post"
 				<?php
 				if($page=='index.php'):?>
@@ -84,24 +90,35 @@
 					action="user.php"
 					<?php endif?>>
 					<input type="text" class="form-control" name="search" id="search_input" placeholder="Search Here">
-					<button type="submit" name="searchBtn" class="search"></button>
+					<input type="hidden"  name="searchBtn" class="search">
 					<span class="lnr lnr-cross" id="close_search" title="Close Search"></span>
 				</form>
 			</div>
 		</div>
 	</header>
+	<?php
+	if($page!='product_detail.php'){
+	?>
+		<!-- Start Header Area -->
+	
 	<!-- End Header Area -->
 
 	<!-- Start Banner Area -->
-	<section class="banner-area organic-breadcrumb">
+	<section class="banner-area organic-breadcrumb" style="margin-bottom: 20px;">
 		<div class="container">
 			<div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
 				<div class="col-first">
-					<h1>Welcome</h1>
-
+					<h1>Welcome <?php echo $_SESSION['name'];?></h1>
+					<a href="logout.php">
+					<button class="primary-btn btn-lg btn-block">Log Out</button>
+					</a>
 				</div>
 			</div>
 		</div>
 	</section>
 	<!-- End Banner Area -->
+	<?php
+	}
+	?>
+	
 	

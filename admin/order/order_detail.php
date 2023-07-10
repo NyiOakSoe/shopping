@@ -6,10 +6,10 @@
   if(empty($_SESSION['id']) || empty($_SESSION['name'])){
     header('location:../login.php');
   }
-  if(empty($_GET['pageno'])){
-    $pageno=1;
-  }else{
+  if(!empty($_GET['pageno'])){
     $pageno=$_GET['pageno'];
+  }else{
+    $pageno=1;
   }
   $rec=1;
   $offect=($pageno -1)* $rec;
@@ -78,24 +78,25 @@
                 <a href="order.php" class="btn btn-warning" type="button">Back</a>
                 <nav aria-label="Page navigation example">
                 <ul class="pagination" style="float:right">
-                  <li class="page-item <?php if($pageno=1){echo 'disabled';}?>">
-                    <a class="page-link" href="?pageno=1&id=<?php echo $_GET['id'];?>">First</a>
+                  <li class="page-item ">
+                    <a class="page-link" href="?id=<?php echo $id?>&pageno=1">First</a>
                   </li>
                   <li class="page-item <?php if($pageno<=1){echo 'disabled';}?>">
-                    <a class="page-link" href="?<?php if($pageno<=1){echo '#';}else{echo "pageno=".($pageno-1);}?>&id=<?php echo $_GET['id']?>">Previous</a>
+                    <a class="page-link" href="?id=<?php echo $id?>&<?php if($pageno<=1){echo '#';}else{echo "pageno=".($pageno-1);}?>">Previous</a>
                   </li>
                   <li class="page-item">
                     <a class="page-link" href="<?php echo '#'?>"><?php echo $pageno?></a>
                   </li>
                   <li class="page-item <?php if($pageno>=$totalpageno){echo 'disabled';}?> ">
-                    <a class="page-link" href="?<?php if($pageno>=$totalpageno){echo '#';}else{echo "pageno=".($pageno+1);}?>">Next</a>
+                    <a class="page-link" href="?id=<?php echo $id?>&<?php if($pageno>=$totalpageno){echo '#';}else{echo "pageno=".($pageno+1);}?>">Next</a>
                   </li>
-                  <li class="page-item <?php if($pageno=$totalpageno){echo 'disabled';}?>">
-                    <a class="page-link" href="?pageno=<?php echo $totalpageno ?>&id=<?php echo $_GET['id']?>">Last</a>
+                  <li class="page-item ">
+                    <a class="page-link" href="?id=<?php echo $id?>&pageno=<?php echo $totalpageno ?>">Last</a>
                   </li>
                 </ul>
+              
               </nav>
-              </nav>
+              
               </div>
               
             </div>

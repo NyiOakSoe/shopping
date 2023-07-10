@@ -20,7 +20,7 @@
  ?>
 <!--================Single Product Area =================-->
 <div class="" >
-  <div class="container">
+  <div class="container" style="margin-top: 150px;">
     <div class="row s_product_inner">
       <div class="col-lg-6">       
             <img class="img-fluid" src="admin/product_image/<?php echo $result[0]['image'];?>" alt="">
