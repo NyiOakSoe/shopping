@@ -34,17 +34,21 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
-      <!-- Navbar Search -->
-      <li class="nav-item">
-        <a class="nav-link" data-widget="navbar-search" href="#" role="button">
-          <i class="fas fa-search"></i>
-        </a>
-        <div class="navbar-search-block">
           <?php
             $link=$_SERVER['PHP_SELF'];
             $link=explode('/',$link);
             $page=end($link);
           ?>
+      <!-- Navbar Search -->
+      <?php
+        if($page=='category.php'){
+          ?>
+          <li class="nav-item">
+        <a class="nav-link" data-widget="navbar-search" href="#" role="button">
+          <i class="fas fa-search"></i>
+        </a>
+        <div class="navbar-search-block">
+          
           <form class="form-inline" method="post" 
           <?php
           if($page=='index.php'):?>
@@ -70,6 +74,10 @@ scratch. This page gets rid of all links and provides the needed markup only.
           </form>
         </div>
       </li>
+          <?php
+        }
+      ?>
+      
 
       
       

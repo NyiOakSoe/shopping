@@ -6,25 +6,24 @@
   if(empty($_SESSION['id']) || empty($_SESSION['name'])){
     header('location:../login.php');
   }
+  if(isset($_POST['searchBTN'])){
+    setcookie('search',$_POST['search'],time()+(3600*24),'/');
+  }else{
+    if(empty($_GET['pageno'])){
+      unset($_COOKIE['search']);
+      setcookie('search',null,-1,'/');
+    }
+  }
+  
   if(empty($_GET['pageno'])){
     $pageno=1;
   }else{
     $pageno=$_GET['pageno'];
   }
-  $rec=1;
+  $rec=5;
   $offect=($pageno -1)* $rec;
-  
-  if(isset($_POST['searchBTN'])){
-   $search=$_POST['search'];
-   $stmt=$pdo->prepare("SELECT * FROM product  WHERE name LIKE '%$search%' ORDER BY id DESC");
-    $stmt->execute();
-    $row_result=$stmt->fetchAll();
-    $totalpageno=ceil(count($row_result)/$rec);
-    $stmt=$pdo->prepare("SELECT * FROM product WHERE name LIKE '%$search%' ORDER BY id DESC LIMIT $offect,$rec    ");
-    $stmt->execute();
-    $result=$stmt->fetchAll();
-    
-  }else{
+
+  if(empty($_POST['search']) && empty($_COOKIE['search'])){
     $stmt=$pdo->prepare("SELECT * FROM product  ORDER BY id DESC");
     $stmt->execute();
     $row_result=$stmt->fetchAll();
@@ -33,6 +32,20 @@
     $stmt->execute();
     $result=$stmt->fetchAll();
     
+  }else{
+    
+    if(isset($_POST['searchBTN'])){
+      $search=$_POST['search'];
+     }else{
+      $search=$_COOKIE['search'];
+     }
+     $stmt=$pdo->prepare("SELECT * FROM product  WHERE name LIKE '%$search%' ORDER BY id DESC");
+      $stmt->execute();
+      $row_result=$stmt->fetchAll();
+      $totalpageno=ceil(count($row_result)/$rec);
+      $stmt=$pdo->prepare("SELECT * FROM product WHERE name LIKE '%$search%' ORDER BY id DESC LIMIT $offect,$rec    ");
+      $stmt->execute();
+      $result=$stmt->fetchAll();
   }
       
   include ('header.php');
@@ -56,7 +69,7 @@
                     <tr>
                       <th style="width: 10px">No</th>
                       <th style="width: 400px">Name</th>
-                      <th >Description</th>
+                      <th style="width: 400px" >Description</th>
                       <th >Price</th>
                       <th >In Stock</th>
                       <th >Category</th>
@@ -74,7 +87,7 @@
                       <tr>
                         <td><?php echo $i;?></td>
                         <td><?php echo $value['name']?></td>
-                        <td><?php echo $value['description']?></td>
+                        <td><?php echo substr($value['description'],0,100)."..."?></td>
                         <td><?php echo $value['price']?></td>
                         <td><?php echo $value['quantity']?></td>
                         <td><?php echo $catResult[0]['name']?></td>

@@ -6,6 +6,14 @@
   if(empty($_SESSION['id']) || empty($_SESSION['name'])){
     header('location:../login.php');
   }
+  if(isset($_POST['searchBTN'])){
+    setcookie('search',$_POST['search'],time()+(3600*24),'/');
+  }else{
+    if(empty($_GET['admin_pageno']) && empty($_GET['cos_pageno']) ){
+      unset($_COOKIE['search']);
+      setcookie('search',null,-1,'/');
+    }
+  }
   
   //admin pagination//
   if(empty($_GET['admin_pageno'])){
@@ -25,13 +33,37 @@
   $rec_cos=1;
   $offset_cos=($cos_pageno-1)*$rec_cos;
   //costumer pagination
-if(isset($_POST['searchBTN'])){
-  $search=$_POST['search'];
+if(empty($_POST['search']) && empty($_COOKIE['search'])){
+  //admin
+  $admin_stmt=$pdo->prepare("SELECT * FROM admin ORDER BY id DESC");
+  $admin_stmt->execute();
+  $row_admin_result=$admin_stmt->fetchAll();
+  $totalpage_admin=ceil(count($row_admin_result)/$rec_admin);
+  $admin_stmt=$pdo->prepare("SELECT * FROM admin ORDER BY id DESC LIMIT $offset_admin,$rec_admin  ");
+  $admin_stmt->execute();
+  $admin_result=$admin_stmt->fetchAll();
+  //admin
+  //costumer
+  $cos_stmt=$pdo->prepare("SELECT * FROM costumer ORDER BY id DESC");
+  $cos_stmt->execute();
+  $row_cos_result=$cos_stmt->fetchAll();
+  $totalpage_cos=ceil(count($row_cos_result)/$rec_cos);
+  $cos_stmt=$pdo->prepare("SELECT * FROM costumer ORDER BY id DESC LIMIT $offset_cos,$rec_cos  ");
+  $cos_stmt->execute();
+  $cos_result=$cos_stmt->fetchAll();
+  //costumer
+}else{
+  
+  if(isset($_POST['searchBTN'])){
+    $search=$_POST['search'];
+   }else{
+    $search=$_COOKIE['search'];
+   }
   $admin_stmt=$pdo->prepare("SELECT * FROM admin WHERE name LIKE '%$search%' ") ;
-  // $admin_stmt->execute();
-  // $row_admin_result=$admin_stmt->fetchAll();
-  // $totalpage_admin=ceil(count($row_admin_result)/$rec_admin);
-  // $admin_stmt=$pdo->prepare("SELECT * FROM admin WHERE name LIKE '%$search%' ORDER BY id DESC LIMIT $offset_cos,$rec_cos  ");
+  $admin_stmt->execute();
+  $row_admin_result=$admin_stmt->fetchAll();
+  $totalpage_admin=ceil(count($row_admin_result)/$rec_admin);
+  $admin_stmt=$pdo->prepare("SELECT * FROM admin WHERE name LIKE '%$search%' ORDER BY id DESC LIMIT $offset_admin,$rec_admin  ");
   $admin_stmt->execute();
   $admin_result=$admin_stmt->fetchAll();
 
@@ -42,25 +74,6 @@ if(isset($_POST['searchBTN'])){
   $cos_stmt=$pdo->prepare("SELECT * FROM costumer WHERE name LIKE '%$search%' ORDER BY id DESC LIMIT $offset_cos,$rec_cos ");
   $cos_stmt->execute();
   $cos_result=$cos_stmt->fetchAll();
-}else{
-  //admin
-  $admin_stmt=$pdo->prepare("SELECT * FROM admin ORDER BY id DESC");
-  $admin_stmt->execute();
-  $row_admin_result=$admin_stmt->fetchAll();
-  $totalpage_admin=ceil(count($row_admin_result)/$rec_admin);
-  $admin_stmt=$pdo->prepare("SELECT * FROM admin LIMIT $offset_admin,$rec_admin ");
-  $admin_stmt->execute();
-  $admin_result=$admin_stmt->fetchAll();
-  //admin
-  //costumer
-  $cos_stmt=$pdo->prepare("SELECT * FROM costumer ORDER BY id DESC");
-  $cos_stmt->execute();
-  $row_cos_result=$cos_stmt->fetchAll();
-  $totalpage_cos=ceil(count($row_cos_result)/$rec_cos);
-  $cos_stmt=$pdo->prepare("SELECT * FROM costumer LIMIT $offset_cos,$rec_cos ");
-  $cos_stmt->execute();
-  $cos_result=$cos_stmt->fetchAll();
-  //costumer
 }
 
 
@@ -131,7 +144,7 @@ if(isset($_POST['searchBTN'])){
                     <a class="page-link" href="?<?php if($totalpage_admin<=$admin_pageno){echo '#';}else{echo "admin_pageno=".($admin_pageno+1);}?>">Next</a>
                   </li>
                   <li class="page-item ">
-                    <a class="page-link" href="?pageno=<?php echo $totalpage_admin;?>">Last</a>
+                    <a class="page-link" href="?admin_pageno=<?php echo $totalpage_admin;?>">Last</a>
                   </li>
                   
                 </ul>
@@ -203,7 +216,7 @@ if(isset($_POST['searchBTN'])){
                     <a class="page-link" href="?<?php if($totalpage_cos<=$cos_pageno){echo '#';}else{echo "cos_pageno=".($cos_pageno+1);}?>">Next</a>
                   </li>
                   <li class="page-item ">
-                    <a class="page-link" href="?pageno=<?php echo $totalpage_cos;?>">Last</a>
+                    <a class="page-link" href="?cos_pageno=<?php echo $totalpage_cos;?>">Last</a>
                   </li>
                   
                 </ul>

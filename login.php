@@ -1,3 +1,37 @@
+<?php
+	session_start();
+	require 'config/config.php';
+
+	if(isset($_POST['loginBTN'])){
+		if(empty($_POST['email']) || empty($_POST['password'])){
+			if(empty($_POST['email'])){
+				$emailError="! Enter Email";
+			}
+			if(empty($_POST['password'])){
+				$passwordError="! Enter password";
+			}
+		}else{
+			$email=$_POST['email'];
+			$password=$_POST['password'];
+			$stmt=$pdo->prepare("SELECT * FROM costumer WHERE email=:email");
+			$stmt->bindValue(':email',$email);
+			$stmt->execute();
+			$result=$stmt->fetch(PDO::FETCH_ASSOC);
+			if($result){
+				if(password_verify($password,$result['password'])){
+					$_SESSION['id']=$result['id'];
+					$_SESSION['name']=$result['name'];
+					header('location:index.php');
+				}else{
+					echo "<script>alert('Incorrect your Password');</script>";
+				}
+			}else{
+				echo "<script>alert('Incorrect your Email');</script>";
+			}
+			}
+		
+	}
+?>
 <!DOCTYPE html>
 <html lang="zxx" class="no-js">
 
@@ -15,7 +49,7 @@
 	<!-- meta character set -->
 	<meta charset="UTF-8">
 	<!-- Site Title -->
-	<title>Karma Shop</title>
+	<title>Shop</title>
 
 	<!--
 		CSS
@@ -34,11 +68,11 @@
 
 	<!-- Start Header Area -->
 	<header class="header_area sticky-header">
-		<div class="main_menu">
+	<div class="main_menu">
 			<nav class="navbar navbar-expand-lg navbar-light main_box">
 				<div class="container">
 					<!-- Brand and toggle get grouped for better mobile display -->
-					<a class="navbar-brand logo_h" href="index.html"><h4>AP Shopping<h4></a>
+					<a class="navbar-brand logo_h" href="index.php"><h4>Shopping<h4></a>
 					<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
 					 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
 						<span class="icon-bar"></span>
@@ -74,9 +108,10 @@
 		<div class="container">
 			<div class="breadcrumb-banner d-flex flex-wrap align-items-center justify-content-end">
 				<div class="col-first">
-					<h1>Confirmation</h1>
+					<h1>Login/Register</h1>
 					<nav class="d-flex align-items-center">
 						<a href="index.html">Home<span class="lnr lnr-arrow-right"></span></a>
+						<a href="category.html">Login/Register</a>
 					</nav>
 				</div>
 			</div>
@@ -84,41 +119,49 @@
 	</section>
 	<!-- End Banner Area -->
 
-	<!--================Order Details Area =================-->
-	<section class="order_details section_gap">
+	<!--================Login Box Area =================-->
+	<section class="login_box_area section_gap">
 		<div class="container">
-			<h3 class="title_confirmation">Thank you. Your order has been received.</h3>
-			<div class="row order_d_inner">
+			<div class="row">
 				<div class="col-lg-6">
-					<div class="details_item">
-						<h4>Order Info</h4>
-						<ul class="list">
-							<li><a href="#"><span>Order number</span> : 60235</a></li>
-							<li><a href="#"><span>Date</span> : Los Angeles</a></li>
-							<li><a href="#"><span>Total</span> : USD 2210</a></li>
-							<li><a href="#"><span>Payment method</span> : Check payments</a></li>
-						</ul>
+					<div class="login_box_img">
+						<img class="img-fluid" src="img/login.jpg" alt="">
+						<div class="hover">
+							<h4>New to our website?</h4>
+							<p>There are advances being made in science and technology everyday, and a good example of this is the</p>
+							<a class="primary-btn" href="register.php">Create an Account</a>
+						</div>
 					</div>
 				</div>
 				<div class="col-lg-6">
-					<div class="details_item">
-						<h4>Shipping Address</h4>
-						<ul class="list">
-							<li><a href="#"><span>Street</span> : 56/8</a></li>
-							<li><a href="#"><span>City</span> : Los Angeles</a></li>
-							<li><a href="#"><span>Country</span> : United States</a></li>
-							<li><a href="#"><span>Postcode </span> : 36952</a></li>
-						</ul>
+					<div class="login_form_inner">
+						<h3>Log in to enter</h3>
+						<form class="row login_form" action="" method="post" id="contactForm" novalidate="novalidate">
+							<div class="col-md-12 form-group">
+								<input type="email" class="form-control" id="name" name="email" placeholder="Email" >
+								<small style="color:red"><?php echo empty($emailError)?'':$emailError;?></small>
+							</div>
+							<div class="col-md-12 form-group">
+								<input type="password" class="form-control" id="name" name="password" placeholder="Password">
+								<small style="color:red"><?php echo empty($passwordError)?'':$passwordError;?></small>
+							</div>
+							
+							<div class="col-md-12 form-group">
+								<button type="submit" name="loginBTN" value="submit" class="primary-btn">Log In</button>
+								
+							</div>
+						</form>
 					</div>
 				</div>
 			</div>
 		</div>
 	</section>
-	<!--================End Order Details Area =================-->
+	<!--================End Login Box Area =================-->
 
 	<!-- start footer Area -->
 	<footer class="footer-area section_gap">
 		<div class="container">
+			
 			<div class="footer-bottom d-flex justify-content-center align-items-center flex-wrap">
 				<p class="footer-text m-0"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
 Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart-o" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
@@ -128,8 +171,6 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 		</div>
 	</footer>
 	<!-- End footer Area -->
-
-
 
 
 	<script src="js/vendor/jquery-2.2.4.min.js"></script>

@@ -10,7 +10,7 @@
   }
 
   if(isset($_POST['btn'])){
-    if(empty($_POST['name']) || empty($_POST['description'])|| empty($_POST['price']) || empty($_POST['quantity']) || empty($_FILES['img']) || empty($_POST['category']) ){
+    if(empty($_POST['name']) || empty($_POST['description'])|| empty($_POST['price']) || empty($_POST['quantity']) || empty($_FILES['img']) || empty($_POST['category']) ||is_numeric($_POST['price'])!=1 ||is_numeric($_POST['quantity'])!=1 ){
       if(empty($_POST['name'])){
         $name_error="! Need to fill Name";
       }
@@ -121,13 +121,13 @@
                     </div>
                     <div class="form-group">
                         <label for="">Price</label><br>
-                        <input class="form-control" type="text" name="price" id="">
+                        <input class="form-control" type="number" name="price" id="">
                         <small style="color:red"><?php echo empty($price_error)?'':$price_error;?></small>
 
                     </div>
                     <div class="form-group">
                         <label for="">Quantity</label><br>
-                        <input class="form-control" type="text" name="quantity" id="">
+                        <input class="form-control" type="number" name="quantity" id="">
                         <small style="color:red"><?php echo empty($quantity_error)?'':$quantity_error;?></small>
 
                     </div>
