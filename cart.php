@@ -1,4 +1,5 @@
-<?php 
+<?php
+//hi
     include('header.php');
     require 'config/config.php';
     require 'config/common.php';
